@@ -105,6 +105,9 @@ exports.devServer = function(options) {
       new webpack.HotModuleReplacementPlugin({
         multiStep: true
       })
+      , new NpmInstallPlugin({
+        save: true // --save
+      })
     ]
   };
 
