@@ -9,3 +9,4 @@ book.pdf
 *.log
 
 .idea
+.env
