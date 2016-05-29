@@ -52,9 +52,12 @@ export default class App extends React.Component {
 
   editNote = (id, e) => {
     e.stopPropagation();
-
+    if(this.state.editing){
+      return;
+    }
     this.setState({
       notes: this.state.notes.map(note => {if(note.id === id) note.editable = true; return note;})
+      , editing: true
     });
   }
 
@@ -64,6 +67,7 @@ export default class App extends React.Component {
 
     this.setState({
       notes: this.state.notes.map(note => {if(note.id === id) { note.editable = false; note.task = value;} return note;})
+      , editing: false
     });
   }
 
