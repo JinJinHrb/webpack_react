@@ -8,3 +8,5 @@ book.pdf
 *.diff
 *.log
 
+.idea
+.env
