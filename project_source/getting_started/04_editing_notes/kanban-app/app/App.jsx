@@ -19,16 +19,18 @@ export default class App extends React.Component {
       ]
     }
   }
+
   render() {
     const {notes} = this.state;
 
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-        <Notes notes={notes} onDelete={this.deleteNote} />
+        <Notes notes={notes} onEdit={this.editNote} onDelete={this.deleteNote} onFinish={this.finishEdit} />
       </div>
     );
   }
+
   addNote = () => {
     // It would be possible to write this in an imperative style.
     // I.e., through `this.state.notes.push` and then
@@ -47,6 +49,24 @@ export default class App extends React.Component {
       }])
     });
   }
+
+  editNote = (id, e) => {
+    e.stopPropagation();
+
+    this.setState({
+      notes: this.state.notes.map(note => {if(note.id === id) note.editable = true; return note;})
+    });
+  }
+
+  finishEdit = (id, e) =>{
+    e.stopPropagation();
+    const value = e.target.value;
+
+    this.setState({
+      notes: this.state.notes.map(note => {if(note.id === id) { note.editable = false; note.task = value;} return note;})
+    });
+  }
+
   deleteNote = (id, e) => {
     // Avoid bubbling to edit
     e.stopPropagation();
@@ -55,4 +75,5 @@ export default class App extends React.Component {
       notes: this.state.notes.filter(note => note.id !== id)
     });
   }
+
 }
