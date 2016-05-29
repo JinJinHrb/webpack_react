@@ -1,6 +1,7 @@
 import React from 'react';
 import uuid from 'uuid';
 import Notes from './Notes';
+import $ from 'jquery';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -15,6 +16,10 @@ export default class App extends React.Component {
         {
           id: uuid.v4(),
           task: 'Do laundry'
+        },
+        {
+          id: uuid.v4(),
+          task: 'take a shower'
         }
       ]
     }
@@ -30,6 +35,10 @@ export default class App extends React.Component {
     );
   }
   addNote = () => {
+    let taskName = prompt('给出任务名称');
+    if($.trim(taskName)===''){
+      return;
+    }
     // It would be possible to write this in an imperative style.
     // I.e., through `this.state.notes.push` and then
     // `this.setState({notes: this.state.notes})` to commit.
@@ -43,7 +52,7 @@ export default class App extends React.Component {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
-        task: 'New task'
+        task: taskName
       }])
     });
   }
