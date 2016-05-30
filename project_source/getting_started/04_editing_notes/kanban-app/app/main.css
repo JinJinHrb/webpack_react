@@ -13,7 +13,11 @@ body {
   background-color: #fdfdfd; border: 1px solid #ccc;
 }
 
-.note, .note-input {
+.note-input{
+  margin: 0 0.5em 0 0;
+}
+
+.note {
   margin-right: 0.5em;
   margin-bottom: 0.5em; padding: 0.5em;
   background-color: #fdfdfd;

@@ -19,4 +19,5 @@ var generateNote = (id, task, editable, onEdit=()=>{}, onDelete=()=>{}, onFinish
         return <NoteEditable onFinish={onFinish.bind(null, id)} onDelete={onDelete.bind(null, id)} task={task} />
     }
     return <Note onEdit={onEdit.bind(null, id)} onDelete={onDelete.bind(null, id)} task={task} />
-}
+};
+
