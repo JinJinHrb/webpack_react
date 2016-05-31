@@ -3,7 +3,7 @@ import Note from './Note';
 import NoteEditable from './NoteEditable';
 
 export default ({ notes, onEdit=()=>{}, onDelete=()=>{}, onFinish=()=>{} }) => {
-
+    //debugger;
   return (
     <ul className="note-ul">{notes.map(({id, task, editable}) =>
       <li key={id}>

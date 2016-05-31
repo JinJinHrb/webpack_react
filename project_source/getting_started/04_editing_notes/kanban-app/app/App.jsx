@@ -1,41 +1,40 @@
 import React from 'react';
 import uuid from 'uuid';
 import AltContainer from 'alt-container';
-import Notes from './Notes';
-import NoteStore from './stores/NoteStore';
-import NoteActions from './actions/NoteActions';
+import LaneStore from './stores/LaneStore';
+import LaneActions from './actions/LaneActions';
+import Lanes from './Lanes';
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button className="add-note" onClick={this.addNote}>+</button>
-        <AltContainer stores={[NoteStore]} inject={{notes: () => NoteStore.getState().notes}}>
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} onFinish={this.finishEdit} />
+        <button className="add-lane" onClick={this.addLane}>+</button>
+        <AltContainer stores={[LaneStore]} inject={{lanes: () => LaneStore.getState().lanes}}>
+          <Lanes />
         </AltContainer>
-
       </div>
     );
   }
 
-  addNote = () => {
-    NoteActions.create({task: 'New task'});
+  addLane = () => {
+    LaneActions.create({name: 'New Lane'});
   }
 
-  editNote = (id, e) => {
-    e.stopPropagation();
-    NoteActions.updating(id);
-  }
-
-  finishEdit = (id, e) =>{
-    e.stopPropagation();
-    const task = e.target.value;
-    NoteActions.update({id, task});
-  }
-
-  deleteNote = (id, e) => {
-    e.stopPropagation();
-    NoteActions.delete(id);
-  }
+  //editLane = (id, e) => {
+  //  e.stopPropagation();
+  //  LaneActions.updating(id);
+  //}
+  //
+  //finishEditLane = (id, e) =>{
+  //  e.stopPropagation();
+  //  const task = e.target.value;
+  //  LaneActions.update({id, task});
+  //}
+  //
+  //deleteLane = (id, e) => {
+  //  e.stopPropagation();
+  //  LaneActions.delete(id);
+  //}
 
 }

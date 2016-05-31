@@ -10,6 +10,7 @@ if(process.env.NODE_ENV !== 'production') {
   React.Perf = require('react-addons-perf');
 }
 
+//localStorage.clear();
 persist(alt, storage, 'app');
 
 ReactDOM.render(

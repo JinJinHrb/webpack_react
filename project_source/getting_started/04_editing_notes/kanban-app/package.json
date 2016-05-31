@@ -59,6 +59,7 @@
     "alt": "^0.18.4",
     "alt-container": "^1.0.2",
     "alt-utils": "^1.0.0",
+    "jquery": "^2.2.4",
     "node-uuid": "^1.4.7",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
