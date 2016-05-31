@@ -26,6 +26,8 @@ class NoteStore {
         this.setState({
             notes: notes.concat(note)
         });
+
+        return note;
     }
 
     updating(id){
