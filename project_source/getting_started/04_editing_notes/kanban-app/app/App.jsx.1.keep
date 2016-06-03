@@ -75,7 +75,7 @@ export default class App extends React.Component {
     //  return;
     //}
     //this.setState({
-    //  notes: this.state.notes.map(note => {if(note.id === id) note.editable = true; return note;})
+    //  notes: this.state.notes.map(note => {if(note.id === id) note.editing = true; return note;})
     //});
     NoteActions.updating(id);
   }
@@ -85,7 +85,7 @@ export default class App extends React.Component {
     const task = e.target.value;
 
     //this.setState({
-    //  notes: this.state.notes.map(note => {if(note.id === id) { note.editable = false; note.task = value;} return note;})
+    //  notes: this.state.notes.map(note => {if(note.id === id) { note.editing = false; note.task = value;} return note;})
     //  , editing: false
     //});
     NoteActions.update({id, task});

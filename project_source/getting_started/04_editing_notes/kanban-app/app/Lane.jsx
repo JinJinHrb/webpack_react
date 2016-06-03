@@ -28,7 +28,7 @@ export default class Lane extends React.Component {
 
     addNote = (e) => {
         const laneId = this.props.lane.id;
-        const note = NoteActions.create({task: 'New task'});
+        const note = NoteActions.create({value: 'New task'});
         LaneActions.attachToLane({
             noteId: note.id,
             laneId
@@ -43,7 +43,7 @@ export default class Lane extends React.Component {
     }
 
     //addNote = () => {
-    //    NoteActions.create({task: 'New task'});
+    //    NoteActions.create({value: 'New task'});
     //}
 
     editNote = (id, e) => {
@@ -53,8 +53,8 @@ export default class Lane extends React.Component {
 
     finishEditNote = (id, e) =>{
         e.stopPropagation();
-        const task = e.target.value;
-        NoteActions.update({id, task});
+        const value = e.target.value;
+        NoteActions.update({id, value});
     }
 
     //deleteNote = (id, e) => {

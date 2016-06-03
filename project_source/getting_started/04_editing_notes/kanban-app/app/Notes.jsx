@@ -1,23 +1,20 @@
 import React from 'react';
-import Note from './Note';
 import NoteEditable from './NoteEditable';
 
 export default ({ notes, onEdit=()=>{}, onDelete=()=>{}, onFinish=()=>{} }) => {
     //debugger;
   return (
-    <ul className="note-ul">{notes.map(({id, task, editable}) =>
-      <li key={id}>
-          {generateNote(id, task, editable, onEdit, onDelete, onFinish)}
+    <ul className="note-ul">{notes.map(note =>
+      <li key={note.id}>
+          <NoteEditable className="note-wrapper"
+                        editing={note.editing}
+                        value={note.value}
+                        onEdit={onEdit.bind(null, note.id)}
+                        onDelete={onDelete.bind(null, note.id)}
+                        onFinish={onFinish.bind(null, note.id)}
+          />
       </li>
     )}</ul>
   );
 
 }
-
-var generateNote = (id, task, editable, onEdit=()=>{}, onDelete=()=>{}, onFinish=()=>{}) => {
-    if(editable){
-        return <NoteEditable onFinish={onFinish.bind(null, id)} onDelete={onDelete.bind(null, id)} task={task} />
-    }
-    return <Note onEdit={onEdit.bind(null, id)} onDelete={onDelete.bind(null, id)} task={task} />
-};
-

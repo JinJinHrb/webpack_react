@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default ({task, onEdit, onDelete}) => (
+export default ({value, onEdit, onDelete}) => (
   <div className="note-wrapper">
-    <span className="note" onDoubleClick={onEdit}>{task}</span>
+    <span className="note" onDoubleClick={onEdit}>{value}</span>
     <button className="delete-note" onClick={onDelete}>x</button>
   </div>
 );

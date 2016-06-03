@@ -51,7 +51,7 @@ class NoteStore {
     updating(id){
         const notes = this.notes.map(note => {
             if(note.id === id){
-                note.editable = true;
+                note.editing = true;
             }
             return note;
         });
@@ -62,7 +62,7 @@ class NoteStore {
     update(updatedNote){
         const notes = this.notes.map(note => {
             if(note.id === updatedNote.id){
-                note.editable = false;
+                note.editing = false;
                 return Object.assign({}, note, updatedNote);
             }
             return note;
