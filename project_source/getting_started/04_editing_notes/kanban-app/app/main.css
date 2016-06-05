@@ -71,6 +71,14 @@ body {
   margin-bottom: 1.5em;
 }
 
+.note-ul li:first-child{
+  margin-top: 1.5em;
+}
+
+.note-ul li:last-child{
+  margin-bottom: 1.5em;
+}
+
 .add-note {
   margin-left: 0.5em;
   background-color: #fdfdfd; border: 1px solid #ccc;
