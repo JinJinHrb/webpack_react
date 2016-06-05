@@ -73,7 +73,13 @@ class NoteStore {
 
     delete(id){
         this.setState({
-            notes: this.notes.filter(note => note.id !== id )
+            notes: this.notes.filter(note => {
+                if(id instanceof Array){
+                    return (!~id.indexOf(note.id) );
+                }else{
+                   return note.id !== id
+                }
+            })
         })
     }
 }

@@ -32,12 +32,12 @@ body {
   <!-- force to use inline-block so that it gets minimum height -->
 }*/
 
-.note-wrapper .delete-note{
+.note-wrapper .delete-btn{
   padding: 0;
   background-color: #fdfdfd;
   border: none;
   cursor: pointer;
   visibility: hidden;
 }
-.note-wrapper:hover .delete-note { visibility: visible;
+.note-wrapper:hover .delete-btn { visibility: visible;
 }

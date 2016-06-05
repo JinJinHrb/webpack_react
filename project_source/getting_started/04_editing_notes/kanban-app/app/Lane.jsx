@@ -1,6 +1,7 @@
 import AltContainer from 'alt-container';
 import React from 'react';
 import Notes from './Notes.jsx';
+import NoteEditable from './NoteEditable.jsx';
 import LaneActions from './actions/LaneActions';
 import NoteActions from './actions/NoteActions';
 import NoteStore from './stores/NoteStore';
@@ -14,7 +15,15 @@ export default class Lane extends React.Component {
                 <div className="lane-header">
                     <div className="lane-add-note">
                         <button onClick={this.addNote}>+</button> </div>
-                    <div className="lane-name">{lane.name}</div>
+                    <NoteEditable className="lane-name"
+                                  editing={lane.editing}
+                                  value={lane.value}
+                                  onEdit={this.editLaneName}
+                                  onFinish={this.finishEditLaneName}
+                    />
+                    <div className="lane-delete">
+                        <button onClick={this.deleteLane}>x</button>
+                    </div>
                 </div>
                 <AltContainer
                     stores={[NoteStore]}
@@ -26,6 +35,29 @@ export default class Lane extends React.Component {
         )
     }
 
+    /* Lane operation START */
+    editLaneName = (e) => {
+        e.stopPropagation();
+        LaneActions.updating(this.props.lane.id);
+    }
+
+    finishEditLaneName = (e) => {
+        e.stopPropagation();
+        const id = this.props.lane.id;
+        const value = e.target.value;
+        LaneActions.update({id, value});
+    }
+
+    deleteLane = (e) => {
+        const lane = this.props.lane;
+        const id = lane.id;
+        const notes = lane.notes;
+        LaneActions.delete(id);
+        NoteActions.delete(notes); // noteIds in fact
+    }
+    /* Lane operation END */
+
+    /* Notes operation START */
     addNote = (e) => {
         const laneId = this.props.lane.id;
         const note = NoteActions.create({value: 'New task'});
@@ -42,10 +74,6 @@ export default class Lane extends React.Component {
         NoteActions.delete(noteId);
     }
 
-    //addNote = () => {
-    //    NoteActions.create({value: 'New task'});
-    //}
-
     editNote = (id, e) => {
         e.stopPropagation();
         NoteActions.updating(id);
@@ -56,10 +84,6 @@ export default class Lane extends React.Component {
         const value = e.target.value;
         NoteActions.update({id, value});
     }
-
-    //deleteNote = (id, e) => {
-    //    e.stopPropagation();
-    //    NoteActions.delete(id);
-    //}
+    /* Notes operation END */
 
 }

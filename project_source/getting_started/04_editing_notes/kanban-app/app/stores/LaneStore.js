@@ -21,6 +21,44 @@ class LaneStore {
         });
     }
 
+    updating(laneId){
+        const lanes = this.lanes.map(lane => {
+            if(lane.id === laneId){
+                lane.editing = true;
+            }
+            return lane;
+        });
+
+        this.setState({lanes});
+    }
+
+    update(updatedLane){
+        const lanes = this.lanes.map(lane => {
+            if(lane.id === updatedLane.id){
+                lane.editing = false;
+                return Object.assign({}, lane, updatedLane);
+            }
+            return lane;
+        });
+
+        this.setState({lanes});
+    }
+
+    delete(laneId){
+        let noteIds = [];
+        const lanes = this.lanes.filter(lane => {
+            if(lane.id === laneId){
+                let notes = lane.notes || [];
+                notes.forEach(note => {
+                    noteIds.push(note.id);
+                });
+                return false;
+            }
+            return true;
+        });
+        this.setState({lanes});
+    }
+
     attachToLane({laneId, noteId}) {
         if(!noteId) {
             this.waitFor(NoteStore);
