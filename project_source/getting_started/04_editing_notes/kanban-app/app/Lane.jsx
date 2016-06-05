@@ -21,9 +21,10 @@ export default class Lane extends React.Component {
                                   onEdit={this.editLaneName}
                                   onFinish={this.finishEditLaneName}
                     />
-                    <div className="lane-delete">
-                        <button onClick={this.deleteLane}>x</button>
-                    </div>
+                    {!lane.editing ?
+                        <div className="lane-delete">
+                            <button onClick={this.deleteLane}>x</button>
+                        </div> : ''}
                 </div>
                 <AltContainer
                     stores={[NoteStore]}

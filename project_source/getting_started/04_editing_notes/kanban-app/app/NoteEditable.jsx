@@ -8,7 +8,7 @@ export default class NoteEditable extends React.Component {
         return (
             <div {...props}>
                 {editing? this.renderEditable() : this.renderValue()}
-                {onDelete? <button className="delete-btn" onClick={onDelete}>x</button> : ''}
+                {(onDelete && !editing)? <button className="delete-btn" onClick={onDelete}>x</button> : ''}
             </div>
         );
     }
