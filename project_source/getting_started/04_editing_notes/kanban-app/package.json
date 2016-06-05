@@ -49,6 +49,8 @@
     "phantomjs-prebuilt": "^2.1.7",
     "react-addons-perf": "^15.0.2",
     "react-addons-test-utils": "^15.0.2",
+    "react-dnd": "^2.1.4",
+    "react-dnd-html5-backend": "^2.1.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",

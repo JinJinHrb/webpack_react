@@ -1,6 +1,10 @@
 import React from 'react';
 import uuid from 'uuid';
 import AltContainer from 'alt-container';
+
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 import LaneStore from './stores/LaneStore';
 import LaneActions from './actions/LaneActions';
 import Lanes from './Lanes';
