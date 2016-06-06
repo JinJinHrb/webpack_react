@@ -86,7 +86,8 @@ body {
 
 .note-wrapper .note-input{
   margin: 0 0.5em 0 0.5em;
-  padding: 0.5em;
+  font-size: 0.8em;
+  padding: 0.25em;
 }
 
 .note-wrapper .note {
@@ -110,5 +111,4 @@ body {
   visibility: hidden;
 }
 
-.note-wrapper:hover .delete-btn { visibility: visible;
-}
+.note-wrapper:hover .delete-btn { visibility: visible; }

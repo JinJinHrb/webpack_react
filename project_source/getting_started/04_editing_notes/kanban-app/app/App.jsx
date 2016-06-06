@@ -25,20 +25,4 @@ export default class App extends React.Component {
     LaneActions.create({value: 'New Lane'});
   }
 
-  //editLane = (id, e) => {
-  //  e.stopPropagation();
-  //  LaneActions.updating(id);
-  //}
-  //
-  //finishEditLane = (id, e) =>{
-  //  e.stopPropagation();
-  //  const task = e.target.value;
-  //  LaneActions.update({id, task});
-  //}
-  //
-  //deleteLane = (id, e) => {
-  //  e.stopPropagation();
-  //  LaneActions.delete(id);
-  //}
-
 }
