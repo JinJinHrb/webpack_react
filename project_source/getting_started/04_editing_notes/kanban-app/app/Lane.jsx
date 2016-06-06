@@ -50,6 +50,10 @@ export default class Lane extends React.Component {
     }
 
     deleteLane = (e) => {
+        let yes = confirm('确认删除?');
+        if(!yes){
+            return;
+        }
         const lane = this.props.lane;
         const id = lane.id;
         const notes = lane.notes;

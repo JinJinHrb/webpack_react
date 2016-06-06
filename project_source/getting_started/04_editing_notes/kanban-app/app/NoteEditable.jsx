@@ -14,13 +14,25 @@ export default class NoteEditable extends React.Component {
     }
 
     renderEditable = () => {
-        return <input className="note-input" type="text" onBlur={this.props.onFinish} defaultValue={this.props.value} autoFocus={true}
+        return <input className="note-input" type="text" onBlur={this.props.onFinish} defaultValue={this.props.value} autoFocus={true} onKeyDown={this.onKeyDownHandler.bind(null, this.props.onFinish)}
            ref={ (e) => e ? e.selectionStart = 0/*this.props.value.length*/ : null }
         />
     }
 
     renderValue = () => {
         return <span className="note" onDoubleClick={this.props.onEdit}>{this.props.value}</span>
+    }
+
+    onKeyDownHandler = (onFinish=()=>{}, e) => {
+        let keyPressed = '';
+        if(e.keyCode) {
+            keyPressed = e.keyCode;
+        }else{
+            return;
+        }
+        if(keyPressed === 13){ // 回车
+            onFinish(e);
+        }
     }
 
 }
