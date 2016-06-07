@@ -100,13 +100,38 @@ class LaneStore {
                 $splice: [
                     [sourceNoteIndex, 1],
                     [targetNoteIndex, 0, sourceId]
-                ] });
+                ] }
+            );
         } else {
             // get rid of the source
             sourceLane.notes.splice(sourceNoteIndex, 1);
             // and move it to target
             targetLane.notes.splice(targetNoteIndex, 0, sourceId);
         }
+        this.setState({lanes});
+    }
+
+    move2EmptyLane({sourceId, targetLane}) {
+        let notes = targetLane.notes;
+        if( (notes instanceof Array) && notes.length>0){
+            return;
+        }
+        let targetLaneId = targetLane.id;
+        const lanes = this.lanes.map(lane => {
+            if(lane.id === targetLaneId){
+                lane.notes = react_update(lane.notes, {
+                    $push: [sourceId]
+                });
+            }else if( (lane.notes instanceof Array) && lane.notes.includes(sourceId) ){
+                let sourceIdx = lane.notes.indexOf(sourceId);
+                lane.notes = react_update(lane.notes, {
+                    $splice: [
+                        [sourceIdx, 1]
+                    ]
+                });
+            }
+            return lane;
+        });
         this.setState({lanes});
     }
 

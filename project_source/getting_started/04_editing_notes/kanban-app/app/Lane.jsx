@@ -5,13 +5,30 @@ import NoteEditable from './NoteEditable.jsx';
 import LaneActions from './actions/LaneActions';
 import NoteActions from './actions/NoteActions';
 import NoteStore from './stores/NoteStore';
+import ItemTypes from './constants/itemTypes';
+import {DropTarget} from 'react-dnd';
 
+const laneTarget = {
+    hover(targetProps, monitor) {
+        const targetLane = targetProps.lane;
+        const sourceProps = monitor.getItem();
+        const sourceId = sourceProps.id;
+        if(!(targetLane.notes instanceof Array) || !targetLane.notes.includes(sourceId)) {
+            targetProps.onMove({sourceId, targetLane});
+        }
+    }
+
+};
+
+@DropTarget(ItemTypes.NOTE, laneTarget, (connect) => ({
+    connectDropTarget: connect.dropTarget()
+}))
 export default class Lane extends React.Component {
     render() {
-        const {lane, ...props} = this.props;
+        const {lane, connectDropTarget, onMove, ...props} = this.props;
 
         return (
-            <div {...props}>
+            connectDropTarget(<div {...props}>
                 <div className="lane-header">
                     <div className="lane-add-note">
                         <button onClick={this.addNote}>+</button> </div>
@@ -32,7 +49,7 @@ export default class Lane extends React.Component {
                 >
                     <Notes onEdit={this.editNote} onFinish={this.finishEditNote} onDelete={this.deleteNote} />
                 </AltContainer>
-            </div>
+            </div>)
         )
     }
 
