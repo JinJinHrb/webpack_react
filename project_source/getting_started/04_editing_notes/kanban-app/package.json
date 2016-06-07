@@ -64,6 +64,7 @@
     "jquery": "^2.2.4",
     "node-uuid": "^1.4.7",
     "react": "^15.0.2",
+    "react-addons-update": "^15.1.0",
     "react-dom": "^15.0.2",
     "uuid": "^2.0.2"
   }
