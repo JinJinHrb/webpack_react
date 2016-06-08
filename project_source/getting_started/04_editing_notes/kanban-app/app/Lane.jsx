@@ -13,7 +13,7 @@ const laneTarget = {
         const targetLane = targetProps.lane;
         const sourceProps = monitor.getItem();
         const sourceId = sourceProps.id;
-        if(!(targetLane.notes instanceof Array) || !targetLane.notes.length<1) {
+        if(!(targetLane.notes instanceof Array) || targetLane.notes.length<1) {
             targetProps.onMove({sourceId, targetLane});
         }
     }
