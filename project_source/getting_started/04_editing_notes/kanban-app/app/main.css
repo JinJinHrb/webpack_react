@@ -28,6 +28,7 @@ body {
 }
 
 .lane-add-note {
+  color: black;
   float: left;
   margin-right: 0.5em;
 }
@@ -44,6 +45,7 @@ body {
   cursor: pointer;
   background-color: #fdfdfd;
   border: 1px solid #ccc;
+  padding: 0 0.25em;
 }
 .lane-delete button {
   padding: 0;
@@ -81,7 +83,8 @@ body {
 
 .add-note {
   margin-left: 0.5em;
-  background-color: #fdfdfd; border: 1px solid #ccc;
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
 }
 
 .note-wrapper .note-input{

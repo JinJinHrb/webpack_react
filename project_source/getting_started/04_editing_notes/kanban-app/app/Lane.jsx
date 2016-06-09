@@ -7,6 +7,7 @@ import NoteActions from './actions/NoteActions';
 import NoteStore from './stores/NoteStore';
 import ItemTypes from './constants/itemTypes';
 import {DropTarget} from 'react-dnd';
+import {Button} from 'react-bootstrap';
 
 const laneTarget = {
     hover(targetProps, monitor) {
@@ -31,7 +32,8 @@ export default class Lane extends React.Component {
             connectDropTarget(<div {...props}>
                 <div className="lane-header">
                     <div className="lane-add-note">
-                        <button onClick={this.addNote}>+</button> </div>
+                        <Button bsStyle="default" bsSize="small" onClick={this.addNote}> + </Button>
+                    </div>
                     <NoteEditable className="lane-name"
                                   editing={lane.editing}
                                   value={lane.value}
