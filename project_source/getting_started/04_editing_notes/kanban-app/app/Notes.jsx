@@ -8,7 +8,7 @@ export default ({ notes, onEdit=()=>{}, onDelete=()=>{}, onFinish=()=>{} }) => {
   return (
     <ul className="note-ul">{notes.map(note =>
         <Note className="note" id={note.id} key={note.id}
-              onMove={LaneActions.move}
+              editing={note.editing} onMove={LaneActions.move}
         >
             <NoteEditable className="note-wrapper"
                           editing={note.editing}
