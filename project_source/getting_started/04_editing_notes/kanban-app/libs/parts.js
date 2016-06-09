@@ -134,6 +134,20 @@ exports.setupCSS = function(paths) {
   };
 }
 
+exports.setupFonts = function(paths){
+  return {
+    module: {
+      loaders: [
+        {
+          test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+          loader : 'file-loader',
+          include: paths
+        }
+      ]
+    }
+  }
+}
+
 exports.minify = function() {
   return {
     plugins: [

@@ -11,7 +11,11 @@ const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
   app: path.join(__dirname, 'app'),
   style: [
+    path.join(__dirname, 'app', 'css', 'bootstrap.min.css'),
     path.join(__dirname, 'app', 'main.css')
+  ],
+  fonts: [
+      path.join(__dirname, 'app', 'fonts')
   ],
   build: path.join(__dirname, 'build'),
   test: path.join(__dirname, 'tests')
@@ -96,6 +100,7 @@ switch(TARGET) {
         devtool: 'eval-source-map'
       },
       parts.setupCSS(PATHS.style),
+      parts.setupFonts(PATHS.fonts),
       parts.devServer({
         // Customize host/port here if needed
         host: process.env.HOST,
