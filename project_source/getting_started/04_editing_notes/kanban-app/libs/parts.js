@@ -128,6 +128,11 @@ exports.setupCSS = function(paths) {
           test: /\.css$/,
           loaders: ['style', 'css'],
           include: paths
+        },
+        {
+          test: /\.less$/,
+          loaders: ['style', 'css', 'less'],
+          include: paths
         }
       ]
     }

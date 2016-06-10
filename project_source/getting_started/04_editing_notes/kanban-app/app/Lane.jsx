@@ -8,6 +8,7 @@ import NoteStore from './stores/NoteStore';
 import ItemTypes from './constants/itemTypes';
 import {DropTarget} from 'react-dnd';
 import {Button} from 'react-bootstrap';
+import $ from 'jquery';
 
 const laneTarget = {
     hover(targetProps, monitor) {
@@ -64,7 +65,11 @@ export default class Lane extends React.Component {
     finishEditLaneName = (e) => {
         e.stopPropagation();
         const id = this.props.lane.id;
-        const value = e.target.value;
+        const value = $.trim(e.target.value);
+        if(value === ''){
+            LaneActions.updating(this.props.lane.id);
+            return;
+        }
         LaneActions.update({id, value});
     }
 
@@ -105,7 +110,11 @@ export default class Lane extends React.Component {
 
     finishEditNote = (id, e) =>{
         e.stopPropagation();
-        const value = e.target.value;
+        const value = $.trim(e.target.value);
+        if(value === ''){
+            NoteActions.updating(id);
+            return;
+        }
         NoteActions.update({id, value});
     }
     /* Notes operation END */

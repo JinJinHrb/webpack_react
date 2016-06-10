@@ -27,6 +27,10 @@ body {
   padding-top: 2.5%
 }
 
+.lane-name .note-input{
+  color: black;
+}
+
 .lane-add-note {
   color: black;
   float: left;
