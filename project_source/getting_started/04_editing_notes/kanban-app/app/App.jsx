@@ -10,7 +10,11 @@ import LaneActions from './actions/LaneActions';
 import Lanes from './Lanes';
 import {Col} from 'react-bootstrap';
 
+import LogicTrees from './LogicTrees';
 import LogicTree from './components/tree/LogicTree';
+import LogicTreeStore from './stores/LogicTreeStore';
+
+import LogicTreeActions from './actions/LogicTreeActions';
 
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
@@ -32,7 +36,10 @@ export default class App extends React.Component {
           <Col sm={12} style={colStyle}>
               <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 逻辑树 </span></Col>
               <Col sm={12}>
-                    <LogicTree />
+                  <button className="add-lane" onClick={this.addLogicTree}> + 添加 </button>
+                  <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees}}>
+                      <LogicTrees onDel={this.deleteLogicTree} />
+                  </AltContainer>
               </Col>
           </Col>
       </div>
@@ -42,5 +49,61 @@ export default class App extends React.Component {
   addLane = () => {
     LaneActions.create({value: 'New Lane'});
   }
+
+    addLogicTree = () => {
+        LogicTreeActions.create({name: 'New Logic Tree'});
+    }
+
+    deleteLogicTree = (id) => {
+        confirm('确认删除?');
+        LogicTreeActions.delete(id);
+    }
+
+    demo = [{
+        id: '0-0',
+        title: 'parent 1',
+        children: [
+            {
+                id: '0-0-0',
+                title: {
+                    text: 'parent 0-1',
+                    hasEdit: true,
+                    editStyle: {
+                        color: 'blue'
+                    },
+                    hasDelete: true,
+                    deleteStyle: {
+                        color: 'red'
+                    }
+                },
+                children: [
+                    {
+                        id: '0-0-0-0',
+                        title: 'leaf'
+                    },
+                    {
+                        id: '0-0-0-1',
+                        title: 'leaf'
+                    }
+                ]
+            },
+            {
+                id: '0-0-1',
+                title: 'parent 1-1',
+                //disabled: true,
+                children: [
+                    {
+                        id: '0-0-1-0',
+                        title: 'parent 1-1-0',
+                        disableCheckbox: true
+                    },
+                    {
+                        id: '0-0-1-1',
+                        title: 'parent 1-1-1'
+                    }
+                ]
+            }
+        ]
+    }];
 
 }

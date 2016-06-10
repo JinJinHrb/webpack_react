@@ -110,7 +110,7 @@ body {
   transition: 0.6s;
 }
 
-.note-wrapper .delete-btn{
+.note-wrapper .delete-btn {
   padding: 0;
   background-color: #fdfdfd;
   border: none;
@@ -119,3 +119,22 @@ body {
 }
 
 .note-wrapper:hover .delete-btn { visibility: visible; }
+
+.tree-header .delete-btn {
+  margin: 0 auto auto 0.5em;
+  padding: 0 0.5em;
+  background-color: #fdfdfd;
+  border: none;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.tree-header:hover .delete-btn { visibility: visible; }
+
+.tree-header{
+  margin-top: 0.5em;
+}
+.tree-header .note{
+  display: inline-block;
+  font-size: 2em;
+}

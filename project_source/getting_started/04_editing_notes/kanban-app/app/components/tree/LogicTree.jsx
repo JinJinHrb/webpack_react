@@ -3,14 +3,12 @@ import './basic.less';
 import React, {PropTypes} from 'react';
 import Tree, {TreeNode} from 'rc-tree';
 
-export default class LogicTree extends React.Component {
+import NoteEditable from '../../NoteEditable'
 
-    constructor(props) {
-        super(props);
-        this.defaultExpandedKeys = ['0-0-0-0', '0-0-1'];
-        this.defaultSelectedKeys = ['0-0-0-0', '0-0-1'];
-        this.defaultCheckedKeys = ['0-0-0-0', '0-0-1'];
-    }
+import $ from 'jquery';
+import {Col} from 'react-bootstrap';
+
+export default class LogicTree extends React.Component {
 
     onExpand = (expandedKeys) => {
         console.log('onExpand', expandedKeys, arguments);
@@ -25,47 +23,64 @@ export default class LogicTree extends React.Component {
         console.log('onCheck', checkedKeys, info);
     }
 
-    onEdit = () => {
+    onEdit = (e) => {
+        e.stopPropagation();
         setTimeout(() => {
             console.log('current key: ', this.selKey);
         }, 0);
     }
 
     onDel = (e) => {
-        if (!window.confirm('sure to delete?')) {
+        e.stopPropagation();
+        if (!window.confirm('确认删除?')) {
             return;
         }
-        e.stopPropagation();
+
     }
 
-    render() {
-        const customLabel = (
+    customLabelHandler = (obj) => {
+        const {text, hasEdit, editStyle={}, hasDelete, deleteStyle={}, ...prop} = obj;
+        return (
             <span className="cus-label">
-              <span>operations: </span>
-              <span style={{color: 'blue'}} onClick={this.onEdit}>Edit</span>
-              <span style={{color: 'red'}} onClick={this.onDel}>Delete</span>
+              <span>{text}</span>
+                {hasEdit? <span style={editStyle} onClick={this.onEdit}>编辑</span>:''}
+                {hasDelete? <span style={deleteStyle} onClick={this.onDel}>删除</span>:''}
             </span>
-        );
-        return (<div style={{margin: '0 20px'}}>
-            <h2>simple</h2>
+        )
+    }
+
+
+    render() {
+        const loop = (data) => {
+            if(!data){
+                return;
+            }
+            return data.map((item) => {
+                let {title, id, isLeaf=true, ...props} = item;
+                if( typeof(title) === 'object' ){
+                    title = this.customLabelHandler(title);
+                }
+                if (item.children) {
+                    return <TreeNode title={title} key={id}  {...props}>{loop(item.children)}</TreeNode>;
+                }
+                return <TreeNode title={title} key={id} isLeaf={isLeaf} {...props} />;
+            });
+        };
+
+        const {name, tree, onDelLogicTree=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], ...props} = this.props;
+
+        const treeNodes = loop(tree);
+        return (<Col sm={12} {...props}>
+            <NoteEditable className="tree-header" onDelete={onDelLogicTree} value={name} />
             <Tree className="myCls" showLine multiple checkable
-                  defaultExpandedKeys={this.defaultExpandedKeys}
+                  defaultExpandedKeys={defaultExpandedKeys}
                   onExpand={this.onExpand}
-                  defaultSelectedKeys={this.defaultSelectedKeys}
-                  defaultCheckedKeys={this.defaultCheckedKeys}
+                  defaultSelectedKeys={defaultSelectedKeys}
+                  defaultCheckedKeys={defaultCheckedKeys}
                   onSelect={this.onSelect} onCheck={this.onCheck}>
-                <TreeNode title="parent 1" key="0-0">
-                    <TreeNode title={customLabel} key="0-0-0">
-                        <TreeNode title="leaf" key="0-0-0-0" />
-                        <TreeNode title="leaf" key="0-0-0-1" />
-                    </TreeNode>
-                    <TreeNode title="parent 1-1" key="0-0-1" disabled>
-                        <TreeNode title="parent 1-1-0" key="0-0-1-0" disableCheckbox />
-                        <TreeNode title="parent 1-1-1" key="0-0-1-1" />
-                    </TreeNode>
-                </TreeNode>
+                {treeNodes}
             </Tree>
-        </div>);
+        </Col>);
     }
 
 }
