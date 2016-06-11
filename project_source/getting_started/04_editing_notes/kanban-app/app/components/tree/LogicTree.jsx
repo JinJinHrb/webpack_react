@@ -1,3 +1,4 @@
+import './contextmenu.less';
 import './tree.less';
 import './basic.less';
 import React, {PropTypes} from 'react';
@@ -6,12 +7,30 @@ import Tree, {TreeNode} from 'rc-tree';
 import Tooltip from 'rc-tooltip';
 import assign from 'object-assign';
 
-import NoteEditable from '../../NoteEditable'
+import NoteEditable from '../../NoteEditable';
+
+import LogicTreeActions from '../../actions/LogicTreeActions';
 
 import $ from 'jquery';
-import {Col} from 'react-bootstrap';
+import {Col, Button} from 'react-bootstrap';
 
 export default class LogicTree extends React.Component {
+
+    /* triggered after initial rendering */
+    componentDidMount = () => {
+        this.getContainer();
+        // console.log(ReactDOM.findDOMNode(this), this.cmContainer);
+        console.log(this.contains(ReactDOM.findDOMNode(this), this.cmContainer));
+    }
+
+    /* triggered just before a component is unmounted from the DOM */
+    componentWillUnmount = () => {
+        if (this.cmContainer) {
+            ReactDOM.unmountComponentAtNode(this.cmContainer);
+            document.body.removeChild(this.cmContainer);
+            this.cmContainer = null;
+        }
+    }
 
     contains = (root, n) => {
         let node = n;
@@ -22,20 +41,6 @@ export default class LogicTree extends React.Component {
             node = node.parentNode;
         }
         return false;
-    }
-
-    componentWillUnmount = () => {
-        if (this.cmContainer) {
-            ReactDOM.unmountComponentAtNode(this.cmContainer);
-            document.body.removeChild(this.cmContainer);
-            this.cmContainer = null;
-        }
-    }
-
-    componentDidMount = () => {
-        this.getContainer();
-        // console.log(ReactDOM.findDOMNode(this), this.cmContainer);
-        console.log(this.contains(ReactDOM.findDOMNode(this), this.cmContainer));
     }
 
     getContainer = () => {
@@ -89,14 +94,27 @@ export default class LogicTree extends React.Component {
         this.renderCm(info);
     }
 
+    addTreeNode = (treeId, nodeId) => {
+        //console.log('addTreeNode', treeId, nodeId);
+        LogicTreeActions.add(treeId, nodeId);
+    }
+
     renderCm = (info) => {
         if (this.toolTip) {
             ReactDOM.unmountComponentAtNode(this.cmContainer);
             this.toolTip = null;
         }
+        const selKey = info.node.props.eventKey;
+        const overLay = (
+            <span>
+                <Button bsSize="xsmall" className="edit">编&emsp;辑</Button>
+                <Button bsSize="xsmall" bsStyle="success" onClick={this.addTreeNode.bind(null, this.treeId, selKey)}>+ 添加</Button>
+                <Button bsSize="xsmall" bsStyle="danger">&#8209; 删除</Button>
+            </span>
+        )
         this.toolTip = (
             <Tooltip trigger="click" placement="bottomRight" prefixCls="rc-tree-contextmenu"
-                     defaultVisible overlay={<h4>{info.node.props.title}</h4>}
+                     defaultVisible overlay={overLay}
             >
                 <span></span>
             </Tooltip>
@@ -123,16 +141,18 @@ export default class LogicTree extends React.Component {
                     title = this.customLabelHandler(title);
                 }
                 if (item.children) {
-                    return <TreeNode title={title} key={id}  {...props}>{loop(item.children)}</TreeNode>;
+                    return <TreeNode title={title} key={id} {...props}>{loop(item.children)}</TreeNode>;
                 }
                 return <TreeNode title={title} key={id} isLeaf={isLeaf} {...props} />;
             });
         };
 
-        const {name, tree, onDelLogicTree=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], ...props} = this.props;
+        const {treeId, name, tree, onDelLogicTree=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], ...props} = this.props;
+
+        this.treeId = treeId;
 
         const treeNodes = loop(tree);
-        return (<Col sm={12} {...props}>
+        return (<Col className="treeWrapper" sm={12} {...props}>
             <NoteEditable className="tree-header" onDelete={onDelLogicTree} value={name} />
             <Tree className="myCls" showLine multiple checkable
                   defaultExpandedKeys={defaultExpandedKeys}

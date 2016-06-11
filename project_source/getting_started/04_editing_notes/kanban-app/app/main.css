@@ -140,3 +140,22 @@ body {
   display: inline-block;
   font-size: 2em;
 }
+
+.rc-tree-contextmenu-inner {
+  padding: 0.25em 0.25em 0 0.25em !important;
+}
+
+.rc-tree-contextmenu-inner button.btn-xs{
+  margin-bottom: 0.25em;
+  display: block;
+}
+
+.rc-tree-contextmenu-inner .edit{
+  background-color: #A0E11E;
+  color: darkslategrey;
+}
+
+.rc-tree-contextmenu-inner .edit:hover{
+  background-color: #7DAC16;
+  color: white;
+}

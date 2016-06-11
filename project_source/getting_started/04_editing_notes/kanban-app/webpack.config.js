@@ -14,7 +14,8 @@ const PATHS = {
     path.join(__dirname, 'app', 'css', 'bootstrap.min.css'),
     path.join(__dirname, 'app', 'main.css'),
     path.join(__dirname, 'app', 'components', 'tree', 'basic.less'),
-    path.join(__dirname, 'app', 'components', 'tree', 'tree.less')
+    path.join(__dirname, 'app', 'components', 'tree', 'tree.less'),
+    path.join(__dirname, 'app', 'components', 'tree', 'contextmenu.less')
   ],
   fonts: [
       path.join(__dirname, 'app', 'fonts')
