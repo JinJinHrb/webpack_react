@@ -127,6 +127,8 @@ body {
   border: none;
   cursor: pointer;
   visibility: hidden;
+  position: absolute;
+  top: 1.25em;
 }
 
 .tree-header:hover .delete-btn { visibility: visible; }

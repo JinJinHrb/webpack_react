@@ -18,92 +18,48 @@ import LogicTreeActions from './actions/LogicTreeActions';
 
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
-  render() {
-      const appStyle = {width: '98%', margin: 0, padding: 0};
-      const colStyle = {border: '1px solid grey', margin: '0.5em', padding: '0 0 0.5em 0'};
-      const colHeadStyle = {borderBottom: '1px solid grey', margin: '0 auto 0.5em auto', padding: '0.5em', backgroundColor: '#333', color: 'white'};
-    return (
-      <div style={appStyle}>
-          <Col sm={12} style={colStyle}>
-              <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 创建全部 Lane </span></Col>
-              <Col sm={12}>
-                  <button className="add-lane" onClick={this.addLane}> + 添加 </button>
-                  <AltContainer stores={[LaneStore]} inject={{lanes: () => LaneStore.getState().lanes}}>
-                      <Lanes />
-                  </AltContainer>
+    render() {
+        const appStyle = {width: '98%', margin: 0, padding: 0};
+        const colStyle = {border: '1px solid grey', margin: '0.5em', padding: '0 0 0.5em 0'};
+        const colHeadStyle = {borderBottom: '1px solid grey', margin: '0 auto 0.5em auto', padding: '0.5em', backgroundColor: '#333', color: 'white'};
+        return (
+          <div style={appStyle}>
+              <Col sm={12} style={colStyle}>
+                  <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 创建全部 Lane </span></Col>
+                  <Col sm={12}>
+                      <button className="add-lane" onClick={this.addLane}> + 添加 </button>
+                      <AltContainer stores={[LaneStore]} inject={{lanes: () => LaneStore.getState().lanes}}>
+                          <Lanes />
+                      </AltContainer>
+                  </Col>
               </Col>
-          </Col>
-          <Col sm={12} style={colStyle}>
-              <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 逻辑树 </span></Col>
-              <Col sm={12}>
-                  <button className="add-lane" onClick={this.addLogicTree}> + 添加 </button>
-                  <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees}}>
-                      <LogicTrees onDel={this.deleteLogicTree} />
-                  </AltContainer>
+              <Col sm={12} style={colStyle}>
+                  <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 逻辑树 </span></Col>
+                  <Col sm={12}>
+                      <button className="add-lane" onClick={this.addLogicTree}> + 添加 </button>
+                      <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees}}>
+                          <LogicTrees onDel={this.deleteLogicTree} />
+                      </AltContainer>
+                  </Col>
               </Col>
-          </Col>
-      </div>
-    );
-  }
+          </div>
+        );
+    }
 
-  addLane = () => {
-    LaneActions.create({value: 'New Lane'});
-  }
+    addLane = () => {
+        LaneActions.create({value: 'New Lane'});
+    }
 
     addLogicTree = () => {
         LogicTreeActions.create({name: 'New Logic Tree'});
     }
 
     deleteLogicTree = (id) => {
-        confirm('确认删除?');
+        let yes  = confirm('确认删除?');
+        if(!yes){
+            return;
+        }
         LogicTreeActions.delete(id);
     }
-
-    demo = [{
-        id: '0-0',
-        title: 'parent 1',
-        children: [
-            {
-                id: '0-0-0',
-                title: {
-                    text: 'parent 0-1',
-                    hasEdit: true,
-                    editStyle: {
-                        color: 'blue'
-                    },
-                    hasDelete: true,
-                    deleteStyle: {
-                        color: 'red'
-                    }
-                },
-                children: [
-                    {
-                        id: '0-0-0-0',
-                        title: 'leaf'
-                    },
-                    {
-                        id: '0-0-0-1',
-                        title: 'leaf'
-                    }
-                ]
-            },
-            {
-                id: '0-0-1',
-                title: 'parent 1-1',
-                //disabled: true,
-                children: [
-                    {
-                        id: '0-0-1-0',
-                        title: 'parent 1-1-0',
-                        disableCheckbox: true
-                    },
-                    {
-                        id: '0-0-1-1',
-                        title: 'parent 1-1-1'
-                    }
-                ]
-            }
-        ]
-    }];
 
 }
