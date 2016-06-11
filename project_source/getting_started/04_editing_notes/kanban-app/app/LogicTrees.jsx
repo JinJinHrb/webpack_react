@@ -4,8 +4,10 @@ import LaneActions from './actions/LaneActions'
 
 const LogicTrees = ({ trees, onDel=()=>{} }) => {
   return (
-      <div className="trees">{trees.map(obj =>
-          <LogicTree key={obj.id} treeId={obj.id} name={obj.name} tree={obj.tree} onDelLogicTree={onDel.bind(null, obj.id)} />
+      <div className="trees">{trees.map(obj =>{
+          const {id, name, tree, ...props} = obj;
+          return <LogicTree key={id} treeId={id} name={name} tree={tree} {...props} onDelLogicTree={onDel.bind(null, obj.id)} />
+          }
       )}</div>
   );
 

@@ -20,6 +20,7 @@ class LogicTreeStore {
                 title: '新节点',
                 isRoot: true
             }];
+        obj.defaultExpandAll = true;
 
         this.setState({
             trees: trees.concat(obj)
@@ -46,7 +47,6 @@ class LogicTreeStore {
     }
 
     add_iterateTree(tree, nodeId){
-        debugger;
         if( !(tree instanceof Array) ){
             return null;
         }

@@ -94,9 +94,9 @@ export default class LogicTree extends React.Component {
         this.renderCm(info);
     }
 
-    addTreeNode = (treeId, nodeId) => {
+    addTreeNode = (nodeId) => {
         //console.log('addTreeNode', treeId, nodeId);
-        LogicTreeActions.add(treeId, nodeId);
+        LogicTreeActions.add(this.props.treeId, nodeId);
     }
 
     renderCm = (info) => {
@@ -105,11 +105,12 @@ export default class LogicTree extends React.Component {
             this.toolTip = null;
         }
         const selKey = info.node.props.eventKey;
+        const isRoot = info.node.props.isRoot;
         const overLay = (
             <span>
                 <Button bsSize="xsmall" className="edit">编&emsp;辑</Button>
-                <Button bsSize="xsmall" bsStyle="success" onClick={this.addTreeNode.bind(null, this.treeId, selKey)}>+ 添加</Button>
-                <Button bsSize="xsmall" bsStyle="danger">&#8209; 删除</Button>
+                <Button bsSize="xsmall" bsStyle="success" onClick={this.addTreeNode.bind(null, selKey)}>+ 添加</Button>
+                {isRoot? '' : <Button bsSize="xsmall" bsStyle="danger">&#8209; 删除</Button>}
             </span>
         )
         this.toolTip = (
@@ -148,13 +149,11 @@ export default class LogicTree extends React.Component {
         };
 
         const {treeId, name, tree, onDelLogicTree=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], ...props} = this.props;
-
-        this.treeId = treeId;
-
         const treeNodes = loop(tree);
-        return (<Col className="treeWrapper" sm={12} {...props}>
+        return (<Col className="treeWrapper" sm={12}>
             <NoteEditable className="tree-header" onDelete={onDelLogicTree} value={name} />
-            <Tree className="myCls" showLine multiple checkable
+            <Tree className="myCls" {...props}
+                  showLine multiple checkable
                   defaultExpandedKeys={defaultExpandedKeys}
                   onExpand={this.onExpand}
                   defaultSelectedKeys={defaultSelectedKeys}
