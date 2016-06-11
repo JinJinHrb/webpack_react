@@ -68,6 +68,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "node-uuid": "^1.4.7",
+    "rc-tooltip": "^3.3.2",
     "react": "^15.0.2",
     "react-addons-update": "^15.1.0",
     "react-bootstrap": "^0.29.4",

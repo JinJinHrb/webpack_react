@@ -1,7 +1,10 @@
 import './tree.less';
 import './basic.less';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import Tree, {TreeNode} from 'rc-tree';
+import Tooltip from 'rc-tooltip';
+import assign from 'object-assign';
 
 import NoteEditable from '../../NoteEditable'
 
@@ -9,6 +12,39 @@ import $ from 'jquery';
 import {Col} from 'react-bootstrap';
 
 export default class LogicTree extends React.Component {
+
+    contains = (root, n) => {
+        let node = n;
+        while (node) {
+            if (node === root) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
+
+    componentWillUnmount = () => {
+        if (this.cmContainer) {
+            ReactDOM.unmountComponentAtNode(this.cmContainer);
+            document.body.removeChild(this.cmContainer);
+            this.cmContainer = null;
+        }
+    }
+
+    componentDidMount = () => {
+        this.getContainer();
+        // console.log(ReactDOM.findDOMNode(this), this.cmContainer);
+        console.log(this.contains(ReactDOM.findDOMNode(this), this.cmContainer));
+    }
+
+    getContainer = () => {
+        if (!this.cmContainer) {
+            this.cmContainer = document.createElement('div');
+            document.body.appendChild(this.cmContainer);
+        }
+        return this.cmContainer;
+    }
 
     onExpand = (expandedKeys) => {
         console.log('onExpand', expandedKeys, arguments);
@@ -49,6 +85,32 @@ export default class LogicTree extends React.Component {
         )
     }
 
+    onRightClick = (info) => {
+        this.renderCm(info);
+    }
+
+    renderCm = (info) => {
+        if (this.toolTip) {
+            ReactDOM.unmountComponentAtNode(this.cmContainer);
+            this.toolTip = null;
+        }
+        this.toolTip = (
+            <Tooltip trigger="click" placement="bottomRight" prefixCls="rc-tree-contextmenu"
+                     defaultVisible overlay={<h4>{info.node.props.title}</h4>}
+            >
+                <span></span>
+            </Tooltip>
+        );
+
+        const container = this.getContainer();
+        assign(this.cmContainer.style, {
+            position: 'absolute',
+            left: info.event.pageX + 'px',
+            top: info.event.pageY + 'px'
+        });
+
+        ReactDOM.render(this.toolTip, container);
+    }
 
     render() {
         const loop = (data) => {
@@ -77,7 +139,9 @@ export default class LogicTree extends React.Component {
                   onExpand={this.onExpand}
                   defaultSelectedKeys={defaultSelectedKeys}
                   defaultCheckedKeys={defaultCheckedKeys}
-                  onSelect={this.onSelect} onCheck={this.onCheck}>
+                  onSelect={this.onSelect} onCheck={this.onCheck}
+                  onRightClick={this.onRightClick}
+            >
                 {treeNodes}
             </Tree>
         </Col>);
