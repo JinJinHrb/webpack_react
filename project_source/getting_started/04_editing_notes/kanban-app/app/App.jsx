@@ -16,6 +16,8 @@ import LogicTreeStore from './stores/LogicTreeStore';
 
 import LogicTreeActions from './actions/LogicTreeActions';
 
+import EditModal from './components/tree/EditModal';
+
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
     render() {
@@ -36,7 +38,7 @@ export default class App extends React.Component {
                   <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 逻辑树 </span></Col>
                   <Col sm={12}>
                       <button className="add-lane" onClick={this.addLogicTree}> + 添加 </button>
-                      <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees}}>
+                      <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees, editModal: () => LogicTreeStore.getState().editModal}}>
                           <LogicTrees onDel={this.deleteLogicTree} />
                       </AltContainer>
                   </Col>

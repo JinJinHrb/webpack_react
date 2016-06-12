@@ -9,6 +9,10 @@ class LogicTreeStore {
         this.bindActions(LogicTreeActions);
 
         this.trees = [];
+
+        this.editModal = {
+            showModal: false
+        };
     }
 
     create(obj){
@@ -102,6 +106,20 @@ class LogicTreeStore {
             }
         }
         return tree;
+    }
+
+    openEditModal(){
+        const editModal = Object.assign(this.editModal || {}, {showModal: true});
+        this.setState({
+            editModal: editModal
+        })
+    }
+
+    closeEditModal(){
+        const editModal = Object.assign(this.editModal || {}, {showModal: false});
+        this.setState({
+            editModal: editModal
+        })
     }
 
 }

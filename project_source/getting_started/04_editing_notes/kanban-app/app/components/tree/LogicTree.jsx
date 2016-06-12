@@ -94,6 +94,11 @@ export default class LogicTree extends React.Component {
         this.renderCm(info);
     }
 
+    editTreeNode = (nodeId) => {
+        LogicTreeActions.openEditModal(this.props.treeId, nodeId);
+        this.cleanCmContainer();
+    }
+
     deleteTreeNode = (nodeId) => {
         LogicTreeActions.deleteNode(this.props.treeId, nodeId);
         this.cleanCmContainer();
@@ -121,7 +126,7 @@ export default class LogicTree extends React.Component {
         const isRoot = info.node.props.isRoot;
         const overLay = (
             <span>
-                <Button bsSize="xsmall" className="edit">编&emsp;辑</Button>
+                <Button bsSize="xsmall" className="edit" onClick={this.editTreeNode.bind(null, selKey)}>编&emsp;辑</Button>
                 <Button bsSize="xsmall" bsStyle="success" onClick={this.addTreeNode.bind(null, selKey)}>+ 添加</Button>
                 {isRoot? '' : <Button bsSize="xsmall" bsStyle="danger" onClick={this.deleteTreeNode.bind(null, selKey)}>&#8209; 删除</Button>}
             </span>

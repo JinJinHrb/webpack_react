@@ -2,13 +2,17 @@ import React from 'react';
 import LogicTree from './components/tree/LogicTree';
 import LaneActions from './actions/LaneActions'
 
-const LogicTrees = ({ trees, onDel=()=>{} }) => {
+import LogicTree_EditModal from './components/tree/LogicTree_EditModal';
+
+const LogicTrees = ({ trees, editModal={}, onDel=()=>{} }) => {
   return (
       <div className="trees">{trees.map(obj =>{
           const {id, name, tree, ...props} = obj;
           return <LogicTree key={id} treeId={id} name={name} tree={tree} {...props} onDelLogicTree={onDel.bind(null, obj.id)} />
           }
-      )}</div>
+      )}
+          <LogicTree_EditModal editModal={editModal} />
+      </div>
   );
 
 }
