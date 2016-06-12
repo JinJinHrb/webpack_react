@@ -31,13 +31,16 @@ class LogicTreeStore {
         const trees = this.trees;
         this.setState({
             trees: trees.filter(obj => obj.id!==id)
-        })
+        });
     }
 
-    add([treeId, nodeId]){
+    add([treeId, nodeId, counter]){
+        if(!treeId || !nodeId){
+            return;
+        }
         const trees = this.trees.map(obj => {
             if(obj.id === treeId){
-                this.add_iterateTree(obj.tree, nodeId);
+                this.add_iterateTree(obj.tree, nodeId, counter);
             }
             return obj;
         })
@@ -46,7 +49,7 @@ class LogicTreeStore {
         });
     }
 
-    add_iterateTree(tree, nodeId){
+    add_iterateTree(tree, nodeId, counter){
         if( !(tree instanceof Array) ){
             return null;
         }
@@ -57,14 +60,48 @@ class LogicTreeStore {
                 node.children = react_update(children, {$push: [
                     {
                         id: uuid.v4(),
-                        title: '新节点'
+                        title: '新节点 - ' + counter
                     }
                 ]})
                 break;
             }else{
-                this.add_iterateTree(node.children, nodeId);
+                this.add_iterateTree(node.children, nodeId, counter);
             }
         }
+    }
+
+    deleteNode([treeId, nodeId]){
+        if(!treeId || !nodeId){
+            return;
+        }
+        const trees = this.trees.map(obj => {
+            if(obj.id === treeId){
+                obj.tree = this.deleteNode_iterateTree(obj.tree, nodeId);
+            }
+            return obj;
+        })
+        this.setState({
+            trees: trees
+        });
+    }
+
+
+
+    deleteNode_iterateTree(tree, nodeId){
+        if( !(tree instanceof Array) ){
+            return null;
+        }
+        const filteredTree = tree.filter(node => node.id!=nodeId);
+        if(filteredTree.length<tree.length){
+            return filteredTree;
+        }
+        for(let i=0; i<tree.length; i++){
+            let node = tree[i];
+            if(node.children instanceof Array){
+                node.children = this.deleteNode_iterateTree(node.children, nodeId);
+            }
+        }
+        return tree;
     }
 
 }

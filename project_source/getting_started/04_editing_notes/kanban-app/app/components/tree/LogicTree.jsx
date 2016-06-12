@@ -94,23 +94,36 @@ export default class LogicTree extends React.Component {
         this.renderCm(info);
     }
 
-    addTreeNode = (nodeId) => {
-        //console.log('addTreeNode', treeId, nodeId);
-        LogicTreeActions.add(this.props.treeId, nodeId);
+    deleteTreeNode = (nodeId) => {
+        LogicTreeActions.deleteNode(this.props.treeId, nodeId);
+        this.cleanCmContainer();
     }
 
-    renderCm = (info) => {
+    addTreeNode = (nodeId) => {
+        if(!this.counter){
+            this.counter = 0;
+        }
+        this.counter++;
+        LogicTreeActions.add(this.props.treeId, nodeId, this.counter);
+        this.cleanCmContainer();
+    }
+
+    cleanCmContainer = () => {
         if (this.toolTip) {
             ReactDOM.unmountComponentAtNode(this.cmContainer);
             this.toolTip = null;
         }
+    }
+
+    renderCm = (info) => {
+        this.cleanCmContainer();
         const selKey = info.node.props.eventKey;
         const isRoot = info.node.props.isRoot;
         const overLay = (
             <span>
                 <Button bsSize="xsmall" className="edit">编&emsp;辑</Button>
                 <Button bsSize="xsmall" bsStyle="success" onClick={this.addTreeNode.bind(null, selKey)}>+ 添加</Button>
-                {isRoot? '' : <Button bsSize="xsmall" bsStyle="danger">&#8209; 删除</Button>}
+                {isRoot? '' : <Button bsSize="xsmall" bsStyle="danger" onClick={this.deleteTreeNode.bind(null, selKey)}>&#8209; 删除</Button>}
             </span>
         )
         this.toolTip = (

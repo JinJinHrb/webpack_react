@@ -19,11 +19,10 @@ import LogicTreeActions from './actions/LogicTreeActions';
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
     render() {
-        const appStyle = {width: '98%', margin: 0, padding: 0};
         const colStyle = {border: '1px solid grey', margin: '0.5em', padding: '0 0 0.5em 0'};
         const colHeadStyle = {borderBottom: '1px solid grey', margin: '0 auto 0.5em auto', padding: '0.5em', backgroundColor: '#333', color: 'white'};
         return (
-          <div style={appStyle}>
+          <div className="container-fluid">
               <Col sm={12} style={colStyle}>
                   <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 创建全部 Lane </span></Col>
                   <Col sm={12}>

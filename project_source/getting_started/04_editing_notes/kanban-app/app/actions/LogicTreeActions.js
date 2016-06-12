@@ -1,3 +1,3 @@
 import alt from '../libs/alt';
 
-export default alt.generateActions('create', 'add', 'delete');
+export default alt.generateActions('create', 'delete', 'add', 'deleteNode');
