@@ -4,11 +4,17 @@ import LaneActions from './actions/LaneActions'
 
 import LogicTree_EditModal from './components/tree/LogicTree_EditModal';
 
-const LogicTrees = ({ trees, editModal={}, onDel=()=>{} }) => {
+const LogicTrees = ({ trees, editModal={}, onDel=()=>{}, onEdit=()=>{}, onFinish=()=>{} }) => {
   return (
       <div className="trees">{trees.map(obj =>{
-          const {id, name, tree, ...props} = obj;
-          return <LogicTree key={id} treeId={id} name={name} tree={tree} {...props} onDelLogicTree={onDel.bind(null, obj.id)} />
+          const {id, ...props} = obj;
+          return <LogicTree
+              key={id} treeId={id} {...props}
+              onDelLogicTree={onDel.bind(null, obj.id)}
+              onEditLogicTreeName={onEdit.bind(null, obj.id)}
+              onFinishEditLogicTreeName={onFinish.bind(null, obj.id)}
+              editingLogicTreeName={obj.editing}
+            />
           }
       )}
           <LogicTree_EditModal editModal={editModal} />

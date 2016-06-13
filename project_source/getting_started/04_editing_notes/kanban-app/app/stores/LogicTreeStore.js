@@ -2,7 +2,8 @@ import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LogicTreeActions from '../actions/LogicTreeActions';
 import NoteStore from './NoteStore';
-var react_update = require('react-addons-update');
+import react_update from 'react-addons-update';
+
 
 class LogicTreeStore {
 
@@ -41,6 +42,29 @@ class LogicTreeStore {
         this.setState({
             trees: trees.filter(obj => obj.id!==id)
         });
+    }
+
+    updating(id){
+        const trees = this.trees.map(tree => {
+            if(tree.id === id){
+                tree.editing = true;
+            }
+            return tree;
+        });
+
+        this.setState({trees});
+    }
+
+    update(updatedTree){
+        const trees = this.trees.map(tree => {
+            if(tree.id === updatedTree.id){
+                tree.editing = false;
+                return Object.assign({}, tree, updatedTree);
+            }
+            return tree;
+        });
+
+        this.setState({trees});
     }
 
     add([treeId, nodeId, counter]){

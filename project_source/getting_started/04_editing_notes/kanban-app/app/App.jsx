@@ -18,6 +18,8 @@ import LogicTreeActions from './actions/LogicTreeActions';
 
 import EditModal from './components/tree/EditModal';
 
+import $ from 'jquery';
+
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
     render() {
@@ -39,7 +41,7 @@ export default class App extends React.Component {
                   <Col sm={12}>
                       <button className="add-lane" onClick={this.addLogicTree}> + 添加 </button>
                       <AltContainer stores={[LogicTreeStore]} inject={{trees: () => LogicTreeStore.getState().trees, editModal: () => LogicTreeStore.getState().editModal}}>
-                          <LogicTrees onDel={this.deleteLogicTree} />
+                          <LogicTrees onDel={this.deleteLogicTree} onEdit={this.editLogicTree} onFinish={this.finishEditLogicTree} />
                       </AltContainer>
                   </Col>
               </Col>
@@ -61,6 +63,21 @@ export default class App extends React.Component {
             return;
         }
         LogicTreeActions.delete(id);
+    }
+
+    finishEditLogicTree = (id, e) =>{
+        e.stopPropagation();
+        const name = $.trim(e.target.value);
+        if(name === ''){
+            LogicTreeActions.updating(id);
+            return;
+        }
+        LogicTreeActions.update({id, name});
+    }
+
+    editLogicTree = (id, e) => {
+        e.stopPropagation();
+        LogicTreeActions.updating(id);
     }
 
 }

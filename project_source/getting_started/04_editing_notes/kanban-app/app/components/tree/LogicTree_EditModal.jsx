@@ -56,7 +56,7 @@ export default class LogicTree_EditModal extends React.Component {
         return (
             <Modal show={editModal.showModal} onHide={this.onClose} {...props}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>编辑选中的逻辑树节点</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <h4>设置客户选项</h4>

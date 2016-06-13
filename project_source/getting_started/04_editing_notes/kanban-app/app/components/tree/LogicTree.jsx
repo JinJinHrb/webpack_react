@@ -166,10 +166,17 @@ export default class LogicTree extends React.Component {
             });
         };
 
-        const {treeId, name, tree, onDelLogicTree=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], ...props} = this.props;
+        const {name, tree, onDelLogicTree=()=>{}, onEditLogicTreeName=()=>{}, onFinishEditLogicTreeName=()=>{}, defaultExpandedKeys=[], defaultSelectedKeys=[], defaultCheckedKeys=[], editingLogicTreeName, ...props} = this.props;
         const treeNodes = loop(tree);
         return (<Col className="treeWrapper" sm={12}>
-            <NoteEditable className="tree-header" onDelete={onDelLogicTree} value={name} />
+            <NoteEditable
+                className="tree-header"
+                onDelete={onDelLogicTree}
+                onEdit={onEditLogicTreeName}
+                onFinish={onFinishEditLogicTreeName}
+                editing={editingLogicTreeName}
+                value={name}
+            />
             <Tree className="myCls" {...props}
                   showLine multiple checkable
                   defaultExpandedKeys={defaultExpandedKeys}
