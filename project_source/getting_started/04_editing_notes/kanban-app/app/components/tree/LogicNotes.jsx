@@ -2,7 +2,7 @@ import React from 'react';
 import LogicNote from './LogicNote';
 import NoteEditable from '../../NoteEditable';
 
-const LogicNotes = ({logicNotes=[], onDelete=()=>{}}) => {
+const LogicNotes = ({logicNotes=[], onDelete=()=>{}, editModal={}}) => {
     return (
         <div className="logic-wrapper">
         {logicNotes.map((note, idx) =>
@@ -11,7 +11,7 @@ const LogicNotes = ({logicNotes=[], onDelete=()=>{}}) => {
                     value={note.value}
                     editing={note.editing}
                     onEdit={a=>a}
-                    onDelete={onDelete.bind(null, note.id)}
+                    onDelete={onDelete.bind(null, editModal, note.id)}
                     onFinish={a=>a}
                     arrow={<span> => </span>}
                 />

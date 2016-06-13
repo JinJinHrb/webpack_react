@@ -44,6 +44,9 @@ export default class LogicTree_EditModal extends React.Component {
         }
     }
 
+    deleteLogicNote({treeId, nodeId}, logicNoteId){
+        LogicTreeActions.deleteLogicNote(treeId, nodeId, logicNoteId)
+    }
 
     render() {
         const {editModal={}, ...props} = this.props;
@@ -70,7 +73,7 @@ export default class LogicTree_EditModal extends React.Component {
                         stores={[LogicTreeStore]}
                         inject={{ logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId) }}
                     >
-                        <LogicNotes />
+                        <LogicNotes onDelete={this.deleteLogicNote} editModal={editModal} />
                     </AltContainer>
 
                 </Modal.Body>

@@ -159,7 +159,7 @@ class LogicTreeStore {
     addLogicNote([treeId, nodeId, logicNotes]){
         const trees = this.trees.map(obj => {
             if(obj.id === treeId){
-                this.setLogicNotes_iterateTree(obj.tree, nodeId, logicNotes);
+                this.addLogicNote_iterateTree(obj.tree, nodeId, logicNotes);
             }
             return obj;
         })
@@ -168,7 +168,7 @@ class LogicTreeStore {
         })
     }
 
-    setLogicNotes_iterateTree(tree, nodeId, logicNotes){
+    addLogicNote_iterateTree(tree, nodeId, logicNotes){
         if( !(tree instanceof Array) ){
             return null;
         }
@@ -179,7 +179,36 @@ class LogicTreeStore {
                 node.logicNotes = react_update(logicNotes0, {$push: logicNotes});
                 break;
             }else{
-                this.setLogicNotes_iterateTree(node.children, nodeId, logicNotes);
+                this.addLogicNote_iterateTree(node.children, nodeId, logicNotes);
+            }
+        }
+    }
+
+    deleteLogicNote([treeId, nodeId, logicNoteId]){
+        const trees = this.trees.map(obj => {
+            if(obj.id === treeId){
+                this.deleteLogicNote_iterate(obj.tree, nodeId, logicNoteId);
+            }
+            return obj;
+        })
+        this.setState({
+            trees: trees
+        })
+    }
+
+    deleteLogicNote_iterate(tree, nodeId, logicNoteId){
+        if( !(tree instanceof Array) ){
+            return null;
+        }
+        for(let i=0; i<tree.length; i++){
+            const node = tree[i];
+            if(node.id === nodeId){
+                debugger;
+                const logicNotes0 = node.logicNotes || [];
+                node.logicNotes = logicNotes0.filter(note => note.id !== logicNoteId);
+                break;
+            }else{
+                this.deleteLogicNote_iterate(node.children, nodeId, logicNoteId);
             }
         }
     }
