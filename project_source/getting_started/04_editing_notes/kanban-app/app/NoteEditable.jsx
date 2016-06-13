@@ -3,10 +3,11 @@ import React from 'react';
 export default class NoteEditable extends React.Component {
 
     render(){
-        const {value, editing, onEdit, onFinish, onDelete, ...props} = this.props;
+        const {value, editing, onEdit, onFinish, onDelete, arrow, ...props} = this.props;
 
         return (
             <div {...props}>
+                {arrow}
                 {editing? this.renderEditable() : this.renderValue()}
                 {(onDelete && !editing)? <button className="delete-btn" onClick={onDelete}>x</button> : ''}
             </div>

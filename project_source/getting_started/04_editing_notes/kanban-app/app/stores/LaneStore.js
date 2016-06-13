@@ -9,6 +9,11 @@ class LaneStore {
         this.bindActions(LaneActions);
 
         this.lanes = [];
+
+        this.exportPublicMethods({
+            getAllLanes: this.getAllLanes.bind(this)
+            , getLanesById: this.getLanesById.bind(this)
+        })
     }
 
     create(lane){
@@ -133,6 +138,21 @@ class LaneStore {
             return lane;
         });
         this.setState({lanes});
+    }
+
+    getAllLanes(){
+        const lanes = this.lanes.map(lane => {
+            let id = lane.id;
+            let value = lane.value;
+            return {id, value};
+        })
+        return lanes;
+    }
+
+    getLanesById(id){
+        return this.lanes.filter(lane => lane.id===id).map(lane => {
+            return {id: lane.id, value: lane.value}
+        });
     }
 
 }

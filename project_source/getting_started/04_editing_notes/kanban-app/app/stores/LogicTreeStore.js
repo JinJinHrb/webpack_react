@@ -5,6 +5,7 @@ import NoteStore from './NoteStore';
 var react_update = require('react-addons-update');
 
 class LogicTreeStore {
+
     constructor() {
         this.bindActions(LogicTreeActions);
 
@@ -13,6 +14,10 @@ class LogicTreeStore {
         this.editModal = {
             showModal: false
         };
+
+        this.exportPublicMethods({
+            getLogicNotes: this.getLogicNotes.bind(this)
+        })
     }
 
     create(obj){
@@ -58,7 +63,7 @@ class LogicTreeStore {
             return null;
         }
         for(let i=0; i<tree.length; i++){
-            var node = tree[i];
+            const node = tree[i];
             if(node.id === nodeId){
                 const children = node.children || [];
                 node.children = react_update(children, {$push: [
@@ -108,8 +113,11 @@ class LogicTreeStore {
         return tree;
     }
 
-    openEditModal(){
-        const editModal = Object.assign(this.editModal || {}, {showModal: true});
+    openEditModal([treeId, nodeId]){
+        const editModal = Object.assign(
+            this.editModal || {},
+            {showModal: true, treeId, nodeId}
+        );
         this.setState({
             editModal: editModal
         })
@@ -120,6 +128,60 @@ class LogicTreeStore {
         this.setState({
             editModal: editModal
         })
+    }
+
+    getLogicNotes(treeId, nodeId){
+        const obj = this.trees.filter(tree => tree.id===treeId)[0];
+        if(!obj){
+            return [];
+        }
+        const logicNotes = [];
+        this.getLogicNotes_iterateTree(obj.tree, nodeId, logicNotes);
+        return logicNotes;
+
+    }
+
+    getLogicNotes_iterateTree(tree, nodeId, logicNotes=[]){
+        if( !(tree instanceof Array) ){
+            return null;
+        }
+        for(let i=0; i<tree.length; i++){
+            const node = tree[i];
+            if(node.id === nodeId){
+                (node.logicNotes || []).forEach(logicNote=>logicNotes.push(logicNote));
+                return;
+            }else{
+                this.getLogicNotes_iterateTree(node.children, nodeId, logicNotes);
+            }
+        }
+    }
+
+    addLogicNote([treeId, nodeId, logicNotes]){
+        const trees = this.trees.map(obj => {
+            if(obj.id === treeId){
+                this.setLogicNotes_iterateTree(obj.tree, nodeId, logicNotes);
+            }
+            return obj;
+        })
+        this.setState({
+            trees: trees
+        })
+    }
+
+    setLogicNotes_iterateTree(tree, nodeId, logicNotes){
+        if( !(tree instanceof Array) ){
+            return null;
+        }
+        for(let i=0; i<tree.length; i++){
+            const node = tree[i];
+            if(node.id === nodeId){
+                const logicNotes0 = node.logicNotes || [];
+                node.logicNotes = react_update(logicNotes0, {$push: logicNotes});
+                break;
+            }else{
+                this.add_iterateTree(node.children, nodeId, logicNotes);
+            }
+        }
     }
 
 }

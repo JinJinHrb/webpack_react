@@ -9,12 +9,13 @@ const Notes = ({notes, onEdit, onDelete, onFinish}) => {
             <Note className="note" id={note.id} key={note.id}
                   editing={note.editing} onMove={LaneActions.move}
             >
-                <NoteEditable className="note-wrapper"
-                              editing={note.editing}
-                              value={note.value}
-                              onEdit={onEdit.bind(null, note.id)}
-                              onDelete={onDelete.bind(null, note.id)}
-                              onFinish={onFinish.bind(null, note.id)}
+                <NoteEditable
+                    value={note.value}
+                    className="note-wrapper"
+                    editing={note.editing}
+                    onEdit={onEdit.bind(null, note.id)}
+                    onDelete={onDelete.bind(null, note.id)}
+                    onFinish={onFinish.bind(null, note.id)}
                 />
             </Note>
         )}</ul>
@@ -27,6 +28,7 @@ Notes.propTypes = {
     onDelete: React.PropTypes.func,
     onFinish: React.PropTypes.func
 };
+
 Notes.defaultProps = {
     notes: []
 };
