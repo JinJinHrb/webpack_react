@@ -203,7 +203,6 @@ class LogicTreeStore {
         for(let i=0; i<tree.length; i++){
             const node = tree[i];
             if(node.id === nodeId){
-                debugger;
                 const logicNotes0 = node.logicNotes || [];
                 node.logicNotes = logicNotes0.filter(note => note.id !== logicNoteId);
                 break;
