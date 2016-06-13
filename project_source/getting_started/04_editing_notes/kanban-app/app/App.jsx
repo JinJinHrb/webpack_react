@@ -26,7 +26,7 @@ export default class App extends React.Component {
         return (
           <div className="container-fluid">
               <Col sm={12} style={colStyle}>
-                  <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 创建全部 Lane </span></Col>
+                  <Col sm={12} style={colHeadStyle}><span style={{fontSize: '1.2em'}}> 创建全部用户组件 </span></Col>
                   <Col sm={12}>
                       <button className="add-lane" onClick={this.addLane}> + 添加 </button>
                       <AltContainer stores={[LaneStore]} inject={{lanes: () => LaneStore.getState().lanes}}>
