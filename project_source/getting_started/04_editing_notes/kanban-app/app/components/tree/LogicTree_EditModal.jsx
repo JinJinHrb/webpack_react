@@ -66,14 +66,12 @@ export default class LogicTree_EditModal extends React.Component {
                     <hr />
 
                     <h4>客户选项排序</h4>
-                    <div className="logic-wrapper">
-                        <AltContainer
-                            stores={[LogicTreeStore]}
-                            inject={{ logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId) }}
-                        >
-                            <LogicNotes />
-                        </AltContainer>
-                    </div>
+                    <AltContainer
+                        stores={[LogicTreeStore]}
+                        inject={{ logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId) }}
+                    >
+                        <LogicNotes />
+                    </AltContainer>
 
                 </Modal.Body>
                 <Modal.Footer>
