@@ -179,7 +179,7 @@ class LogicTreeStore {
                 node.logicNotes = react_update(logicNotes0, {$push: logicNotes});
                 break;
             }else{
-                this.add_iterateTree(node.children, nodeId, logicNotes);
+                this.setLogicNotes_iterateTree(node.children, nodeId, logicNotes);
             }
         }
     }
