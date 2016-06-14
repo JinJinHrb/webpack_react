@@ -236,6 +236,69 @@ class LogicTreeStore {
         }
     }
 
+    move({treeId, nodeId, sourceId, targetId}) {
+        const trees = this.trees.map(obj => {
+            if(obj.id === treeId){
+                this.move_iterateTree(obj.tree, nodeId, sourceId, targetId);
+            }
+            return obj;
+        })
+
+        this.setState({
+            trees: trees
+        })
+
+    }
+
+    /** @param sourceIdStr: '123-321-312#0'
+     * zero following the pound(#) is index of the array "logicNotes"
+     * */
+    move_iterateTree(tree, nodeId, sourceIdStr, targetIdStr){
+        if( !(tree instanceof Array) ){
+            return null;
+        }
+        const sourcePoundIdx = sourceIdStr.lastIndexOf('#');
+        const sourceId = sourceIdStr.substring(0, sourcePoundIdx);
+        //const sourceIdx = sourceIdStr.substring(sourcePoundIdx+1);
+
+        const targetPoundIdx = targetIdStr.lastIndexOf('#');
+        const targetId = targetIdStr.substring(0, targetPoundIdx);
+        //const targetIdx = targetIdStr.substring(targetPoundIdx+1);
+
+        for(let i=0; i<tree.length; i++){
+            const node = tree[i];
+            if(node.id === nodeId){
+                const logicNotes0 = node.logicNotes;
+
+
+                let sourceNote, sourceIdx, targetNote, targetIdx;
+                for(let j=0; j<logicNotes0.length; j++){
+                    if(!sourceNote && logicNotes0[j].id===sourceId){
+                        sourceNote = logicNotes0[j];
+                        sourceIdx = j;
+                    }else if(!targetNote && logicNotes0[j].id===targetId){
+                        targetNote = logicNotes0[j];
+                        targetIdx = j;
+                    }
+                    if(sourceNote && targetNote){
+                        break;
+                    }
+                }
+
+                if(!sourceNote || !targetNote){
+                    return null;
+                }
+
+                node.logicNotes = react_update(logicNotes0, {$splice: [
+                    [sourceIdx, 1],
+                    [targetIdx, 0, sourceNote]
+                ]});
+            }else{
+                this.move_iterateTree(node.children, nodeId, sourceId, targetId);
+            }
+        }
+    }
+
 }
 
 export default alt.createStore(LogicTreeStore, 'LogicTreeStore');

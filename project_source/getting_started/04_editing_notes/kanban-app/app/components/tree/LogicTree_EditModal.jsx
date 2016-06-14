@@ -60,7 +60,7 @@ export default class LogicTree_EditModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <h4>设置客户选项</h4>
-                    <DropdownButton bsStyle='default' bsSize="sm" title='客户选项' key={'dropdown-customer-question'} id={'dropdown-customer-question'}
+                    <DropdownButton bsStyle={'default'} bsSize={'sm'} title={'客户选项'} key={'dropdown-customer-question'} id={'dropdown-customer-question'}
                         onSelect={this.onSelect4DropdownCustomerQuestion.bind(null, editModal)}
                     >
                         {this.generateMenuItems(lanes, 'lane_')}
