@@ -155,9 +155,21 @@ export default class LogicTree extends React.Component {
                 return;
             }
             return data.map((item) => {
-                let {title, id, isLeaf=true, ...props} = item;
+                let {title, id, isLeaf=true, logicNotes, ...props} = item;
                 if( typeof(title) === 'object' ){
                     title = this.customLabelHandler(title);
+                }
+                if( (logicNotes instanceof Array) && logicNotes.length>0 ){
+                    const someLogicNotes = logicNotes.map((note, index)=>{
+                        if(index>5){
+                            return null;
+                        }
+                        return note.value;
+                    }).filter(a=>a!==null); // 只显示 5 条
+                    title = someLogicNotes.join('=>');
+                    if(logicNotes.length > someLogicNotes.length){
+                        title += '...';
+                    }
                 }
                 if (item.children) {
                     return <TreeNode title={title} key={id} {...props}>{loop(item.children)}</TreeNode>;
