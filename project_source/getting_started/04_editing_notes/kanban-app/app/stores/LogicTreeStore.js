@@ -257,6 +257,7 @@ class LogicTreeStore {
         if( !(tree instanceof Array) ){
             return null;
         }
+
         const sourcePoundIdx = sourceIdStr.lastIndexOf('#');
         const sourceId = sourceIdStr.substring(0, sourcePoundIdx);
         //const sourceIdx = sourceIdStr.substring(sourcePoundIdx+1);
@@ -269,7 +270,6 @@ class LogicTreeStore {
             const node = tree[i];
             if(node.id === nodeId){
                 const logicNotes0 = node.logicNotes;
-
 
                 let sourceNote, sourceIdx, targetNote, targetIdx;
                 for(let j=0; j<logicNotes0.length; j++){
@@ -294,7 +294,7 @@ class LogicTreeStore {
                     [targetIdx, 0, sourceNote]
                 ]});
             }else{
-                this.move_iterateTree(node.children, nodeId, sourceId, targetId);
+                this.move_iterateTree(node.children, nodeId, sourceIdStr, targetIdStr);
             }
         }
     }
