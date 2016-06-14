@@ -13,6 +13,7 @@ class LaneStore {
         this.exportPublicMethods({
             getAllLanes: this.getAllLanes.bind(this)
             , getLanesById: this.getLanesById.bind(this)
+            , getLanesByIds: this.getLanesByIds.bind(this)
         })
     }
 
@@ -149,10 +150,21 @@ class LaneStore {
         return lanes;
     }
 
+    /** 可以根据单个 ID 获得 Lanes */
     getLanesById(id){
         return this.lanes.filter(lane => lane.id===id).map(lane => {
             return {id: lane.id, value: lane.value}
         });
+    }
+
+    /** 可以根据 多个 ID 获得 Lanes */
+    getLanesByIds(ids){
+        if( !(ids instanceof Array) ){
+            return [];
+        }
+        return (ids || []).map(id => {
+            return this.lanes.filter(lane => lane.id===id)
+        }).filter(a=>a.length).map(a=>a[0]);
     }
 
 }

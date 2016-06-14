@@ -29,15 +29,14 @@ const LogicNotes = ({logicNotes=[], onDelete=()=>{}, editModal={}}) => {
     );
 }
 
-//LogicNotes.propTypes = {
-//    notes: React.PropTypes.array,
-//    onEdit: React.PropTypes.func,
-//    onDelete: React.PropTypes.func,
-//    onFinish: React.PropTypes.func
-//};
-//
-//LogicNotes.defaultProps = {
-//    notes: []
-//};
+LogicNotes.propTypes = {
+    logicNotes: React.PropTypes.array,
+    onDelete: React.PropTypes.func,
+    editModal: React.PropTypes.object
+};
+
+LogicNotes.defaultProps = {
+    logicNotes: []
+};
 
 export default LogicNotes;

@@ -4,6 +4,7 @@ import LogicTreeActions from '../actions/LogicTreeActions';
 import NoteStore from './NoteStore';
 import react_update from 'react-addons-update';
 
+import LaneStore from './LaneStore'
 
 class LogicTreeStore {
 
@@ -18,6 +19,7 @@ class LogicTreeStore {
 
         this.exportPublicMethods({
             getLogicNotes: this.getLogicNotes.bind(this)
+            , getParentNode: this.getParentNode.bind(this)
         })
     }
 
@@ -163,6 +165,45 @@ class LogicTreeStore {
         this.getLogicNotes_iterateTree(obj.tree, nodeId, logicNotes);
         return logicNotes;
 
+    }
+
+    /** 同时将 note 全部查出 */
+    getParentNode(treeId, nodeId){
+        const trees = this.trees.filter(obj=>obj.id===treeId);
+        const treeObj = trees[0];
+        if(!treeObj){
+            return null;
+        }
+        var parentNodes = [];
+        this.getParentNode_iterate(treeObj.tree, nodeId, null, parentNodes);
+        return parentNodes;
+    }
+
+    getParentNode_iterate(tree, nodeId, parentNode, parentNodes){
+        if( !(tree instanceof Array) ){
+            return false;
+        }
+        for(let i=0; i<tree.length; i++){
+            const node = tree[i];
+            if(node.id === nodeId){
+                const logicNotes0 = parentNode.logicNotes;
+                parentNode.logicNotes = logicNotes0.map(lane=>{
+                    const laneId = lane.id;
+                    const parentLogicNotes = LaneStore.getLanesByIds([laneId]);
+                    const notesExtend = parentLogicNotes.map(lane=>{
+                        const noteIds = lane.notes;
+                        return NoteStore.getNotesByIds(noteIds);
+                    });
+                    lane.notesExtend = notesExtend;
+                    return lane;
+                });
+
+                parentNodes.push(parentNode);
+                return true;
+            }
+            const copyNode = {id: node.id, value: node.title, logicNotes: node.logicNotes};
+            this.getParentNode_iterate(node.children, nodeId, copyNode, parentNodes);
+        }
     }
 
     getLogicNotes_iterateTree(tree, nodeId, logicNotes=[]){

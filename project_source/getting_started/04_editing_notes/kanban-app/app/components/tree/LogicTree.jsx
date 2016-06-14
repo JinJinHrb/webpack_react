@@ -165,7 +165,7 @@ export default class LogicTree extends React.Component {
                             return null;
                         }
                         return note.value;
-                    }).filter(a=>a!==null); // 只显示 5 条
+                    }).filter(a=>a!==null); // 整体试图最多显示 5 条
                     title = someLogicNotes.join('=>');
                     if(logicNotes.length > someLogicNotes.length){
                         title += '...';

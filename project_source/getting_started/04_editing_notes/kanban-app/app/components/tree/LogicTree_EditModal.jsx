@@ -14,6 +14,8 @@ import NoteEditable from '../../NoteEditable';
 import LogicNotes from './LogicNotes';
 import LogicNote from './LogicNote';
 
+import ParentLogicNotes from './ParentLogicNotes';
+
 export default class LogicTree_EditModal extends React.Component {
 
     onClose(){
@@ -59,7 +61,7 @@ export default class LogicTree_EditModal extends React.Component {
                     <Modal.Title>编辑选中的逻辑树节点</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>设置客户选项</h4>
+                    <h5>设置客户选项</h5>
                     <DropdownButton bsStyle={'default'} bsSize={'sm'} title={'客户选项'} key={'dropdown-customer-question'} id={'dropdown-customer-question'}
                         onSelect={this.onSelect4DropdownCustomerQuestion.bind(null, editModal)}
                     >
@@ -68,12 +70,19 @@ export default class LogicTree_EditModal extends React.Component {
 
                     <hr />
 
-                    <h4>客户选项排序</h4>
+                    <h5>客户选项排序</h5>
                     <AltContainer
                         stores={[LogicTreeStore]}
                         inject={{ logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId) }}
                     >
                         <LogicNotes onDelete={this.deleteLogicNote} editModal={editModal} />
+                    </AltContainer>
+
+                    <AltContainer
+                        stores={[LogicTreeStore]}
+                        inject={{ parentNodes: () => LogicTreeStore.getParentNode(editModal.treeId, editModal.nodeId) }}
+                    >
+                        <ParentLogicNotes />
                     </AltContainer>
 
                 </Modal.Body>
