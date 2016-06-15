@@ -5,7 +5,7 @@ import NoteEditable from '../../NoteEditable';
 import LogicTreeActions from '../../actions/LogicTreeActions';
 import ParentLogicNotesExtend from './ParentLogicNotesExtend';
 
-const LogicNotes = ({ parentNodes=[], onCheckParentLogicNoteTree=()=>{} }) => {
+const LogicNotes = ({ parentNodes=[], onCheckParentLogicNoteTree=()=>{}, editModal={}, parentLogicCheckObj={} }) => {
 
     const parentNode = parentNodes[0];
     if(!parentNode){
@@ -20,7 +20,11 @@ const LogicNotes = ({ parentNodes=[], onCheckParentLogicNoteTree=()=>{} }) => {
             logicNotes.map(lane =>
                 <div id={lane.id} key={lane.id}>
                     <span>{lane.value}</span>
-                    <ParentLogicNotesExtend notesExtend={lane.notesExtend} onCheck={onCheckParentLogicNoteTree} laneId={lane.id} />
+                    <ParentLogicNotesExtend
+                        notesExtend={lane.notesExtend}
+                        onCheck={onCheckParentLogicNoteTree.bind(null, {laneId: lane.id, nodeId: editModal.nodeId, treeId: editModal.treeId})}
+                        parentLogicChecks={parentLogicCheckObj[lane.id]}
+                    />
                 </div>
             )
         }</div>
@@ -29,12 +33,16 @@ const LogicNotes = ({ parentNodes=[], onCheckParentLogicNoteTree=()=>{} }) => {
 
 LogicNotes.propTypes = {
     parentNodes: React.PropTypes.array
+    , editModal: React.PropTypes.object
+    , parentLogicCheckObj: React.PropTypes.object
     //onDelete: React.PropTypes.func,
     //editModal: React.PropTypes.object
 };
 
 LogicNotes.defaultProps = {
-    parentNodes: []
+    parentNodes: [],
+    editModal: {},
+    parentLogicCheckObj: {}
 };
 
 export default LogicNotes;

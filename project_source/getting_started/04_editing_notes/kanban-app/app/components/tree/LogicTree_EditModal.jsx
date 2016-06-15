@@ -50,10 +50,8 @@ export default class LogicTree_EditModal extends React.Component {
         LogicTreeActions.deleteLogicNote(treeId, nodeId, logicNoteId)
     }
 
-    onCheckParentLogicNoteTree(laneId, checkedKeys, info){
-        console.log('laneId', laneId)
-        console.log('checkedKeys', checkedKeys)
-        console.log('info', info)
+    onCheckParentLogicNoteTree( {laneId, nodeId, treeId}, checkedKeys, info ){
+        LogicTreeActions.setParentLogicChecks({laneId, nodeId, treeId, checkedKeys})
     }
 
     render() {
@@ -79,16 +77,21 @@ export default class LogicTree_EditModal extends React.Component {
                     <h5>客户选项排序</h5>
                     <AltContainer
                         stores={[LogicTreeStore]}
-                        inject={{ logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId) }}
+                        inject={{
+                            logicNotes: () => LogicTreeStore.getLogicNotes(editModal.treeId, editModal.nodeId)
+                        }}
                     >
                         <LogicNotes onDelete={this.deleteLogicNote} editModal={editModal} />
                     </AltContainer>
 
                     <AltContainer
                         stores={[LogicTreeStore]}
-                        inject={{ parentNodes: () => LogicTreeStore.getParentNode(editModal.treeId, editModal.nodeId) }}
+                        inject={{
+                            parentNodes: () => LogicTreeStore.getParentNode(editModal.treeId, editModal.nodeId)
+                            , parentLogicCheckObj: ()=>LogicTreeStore.getParentLogicCheckObj({treeId: editModal.treeId, nodeId: editModal.nodeId})
+                         }}
                     >
-                        <ParentLogicNotes onCheckParentLogicNoteTree={this.onCheckParentLogicNoteTree} />
+                        <ParentLogicNotes onCheckParentLogicNoteTree={this.onCheckParentLogicNoteTree} editModal={editModal} />
                     </AltContainer>
 
                 </Modal.Body>

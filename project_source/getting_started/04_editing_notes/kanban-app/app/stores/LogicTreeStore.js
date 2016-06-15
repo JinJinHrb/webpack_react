@@ -13,6 +13,8 @@ class LogicTreeStore {
 
         this.trees = [];
 
+        this.parentLogicCheckObj = {};
+
         this.editModal = {
             showModal: false
         };
@@ -20,6 +22,7 @@ class LogicTreeStore {
         this.exportPublicMethods({
             getLogicNotes: this.getLogicNotes.bind(this)
             , getParentNode: this.getParentNode.bind(this)
+            , getParentLogicCheckObj: this.getParentLogicCheckObj.bind(this)
         })
     }
 
@@ -341,6 +344,24 @@ class LogicTreeStore {
                 this.move_iterateTree(node.children, nodeId, sourceIdStr, targetIdStr);
             }
         }
+    }
+
+    setParentLogicChecks({laneId, nodeId, treeId, checkedKeys}){
+        const parentLogicCheckObj = this.parentLogicCheckObj || {};
+        const key = treeId + '#' + nodeId;
+        if(!parentLogicCheckObj[key]){
+            parentLogicCheckObj[key] = {};
+        }
+        parentLogicCheckObj[key][laneId] = checkedKeys;
+        this.setState({
+            parentLogicCheckObj: parentLogicCheckObj
+        })
+    }
+
+    getParentLogicCheckObj({nodeId, treeId}){
+        const parentLogicCheckObj = this.parentLogicCheckObj || {};
+        const key = treeId + '#' + nodeId;
+        return parentLogicCheckObj[key];
     }
 
 }
