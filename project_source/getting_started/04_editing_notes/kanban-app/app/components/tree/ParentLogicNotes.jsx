@@ -12,15 +12,14 @@ const LogicNotes = ({parentNodes=[]}) => {
         return null;
     }
     const logicNotes = parentNode.logicNotes;
-    {console.log('logicNotes', logicNotes)}
     return (
         <div>
             <hr />
             <h5>父节点的客户选项设置进入当前节点的条件</h5>
             {
             logicNotes.map(note =>
-                <div>
-                    <span id={note.id} key={note.id}>{note.value}</span>
+                <div id={note.id} key={note.id}>
+                    <span>{note.value}</span>
                     <ParentLogicNotesExtend notesExtend={note.notesExtend} />
                 </div>
             )

@@ -6,12 +6,17 @@ import LogicTreeActions from '../../actions/LogicTreeActions';
 
 import Tree, {TreeNode} from 'rc-tree';
 
-export default ({notesExtend})=> (
-    <Tree className="parentLogicNotesExtend"
+export default ({notesExtend})=> {
+
+    if( !(notesExtend instanceof Array) || notesExtend.length<0){
+        return null;
+    }
+    const notes = notesExtend[0];
+    return <Tree className="parentLogicNotesExtend"
           showLine multiple checkable
     >
-        {notesExtend.map((note, idx)=>{
-            return <TreeNode title={note.value} key={`parentLogicNotesExtend_${note.id}#${idx}`} isLeaf={true} />;
+        {notes.map((note)=>{
+            return <TreeNode title={note.value} key={note.id} isLeaf={true} />;
         })}
     </Tree>
-)
+}
