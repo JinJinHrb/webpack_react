@@ -6,7 +6,7 @@ import LogicTreeActions from '../../actions/LogicTreeActions';
 
 import Tree, {TreeNode} from 'rc-tree';
 
-export default ({notesExtend})=> {
+export default ({notesExtend, laneId, onCheck=()=>{}})=> {
 
     if( !(notesExtend instanceof Array) || notesExtend.length<0){
         return null;
@@ -14,6 +14,7 @@ export default ({notesExtend})=> {
     const notes = notesExtend[0];
     return <Tree className="parentLogicNotesExtend"
           showLine multiple checkable
+         onCheck={onCheck.bind(null, laneId)}
     >
         {notes.map((note)=>{
             return <TreeNode title={note.value} key={note.id} isLeaf={true} />;

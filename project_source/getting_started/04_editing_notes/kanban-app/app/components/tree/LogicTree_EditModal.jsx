@@ -50,6 +50,12 @@ export default class LogicTree_EditModal extends React.Component {
         LogicTreeActions.deleteLogicNote(treeId, nodeId, logicNoteId)
     }
 
+    onCheckParentLogicNoteTree(laneId, checkedKeys, info){
+        console.log('laneId', laneId)
+        console.log('checkedKeys', checkedKeys)
+        console.log('info', info)
+    }
+
     render() {
         const {editModal={}, ...props} = this.props;
 
@@ -82,7 +88,7 @@ export default class LogicTree_EditModal extends React.Component {
                         stores={[LogicTreeStore]}
                         inject={{ parentNodes: () => LogicTreeStore.getParentNode(editModal.treeId, editModal.nodeId) }}
                     >
-                        <ParentLogicNotes />
+                        <ParentLogicNotes onCheckParentLogicNoteTree={this.onCheckParentLogicNoteTree} />
                     </AltContainer>
 
                 </Modal.Body>
@@ -92,6 +98,5 @@ export default class LogicTree_EditModal extends React.Component {
             </Modal>
         );
     }
-
 
 }

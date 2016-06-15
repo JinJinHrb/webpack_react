@@ -186,6 +186,9 @@ class LogicTreeStore {
         for(let i=0; i<tree.length; i++){
             const node = tree[i];
             if(node.id === nodeId){
+                if(!parentNode){
+                    return false;
+                }
                 const logicNotes0 = parentNode.logicNotes;
                 parentNode.logicNotes = logicNotes0.map(lane=>{
                     const laneId = lane.id;

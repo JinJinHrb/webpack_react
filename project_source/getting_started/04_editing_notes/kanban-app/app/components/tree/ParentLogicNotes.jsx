@@ -5,7 +5,7 @@ import NoteEditable from '../../NoteEditable';
 import LogicTreeActions from '../../actions/LogicTreeActions';
 import ParentLogicNotesExtend from './ParentLogicNotesExtend';
 
-const LogicNotes = ({parentNodes=[]}) => {
+const LogicNotes = ({ parentNodes=[], onCheckParentLogicNoteTree=()=>{} }) => {
 
     const parentNode = parentNodes[0];
     if(!parentNode){
@@ -15,12 +15,12 @@ const LogicNotes = ({parentNodes=[]}) => {
     return (
         <div>
             <hr />
-            <h5>父节点的客户选项设置进入当前节点的条件</h5>
+            <h5>设置客户进入当前节点的条件</h5>
             {
-            logicNotes.map(note =>
-                <div id={note.id} key={note.id}>
-                    <span>{note.value}</span>
-                    <ParentLogicNotesExtend notesExtend={note.notesExtend} />
+            logicNotes.map(lane =>
+                <div id={lane.id} key={lane.id}>
+                    <span>{lane.value}</span>
+                    <ParentLogicNotesExtend notesExtend={lane.notesExtend} onCheck={onCheckParentLogicNoteTree} laneId={lane.id} />
                 </div>
             )
         }</div>
